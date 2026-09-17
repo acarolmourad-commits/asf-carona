@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASF Carona — Carona solidária para praias e eventos</title>
+<meta name="description" content="Ofereça ou peça carona para praias e eventos de surf feminino. Satélite do app ASF.">
+<link rel="canonical" href="https://acarolmourad-commits.github.io/asf-carona/">
+<style>body{font-family:system-ui,sans-serif;margin:0;background:#fff7ed;color:#431407}header{background:#ea580c;color:#fff;padding:2rem;text-align:center}nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;padding:1rem;background:#ffedd5}nav a{color:#c2410c;text-decoration:none;font-size:.85rem}main{max-width:640px;margin:2rem auto;padding:0 1rem}.card{background:#fff;border-radius:16px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.08)}input,select,textarea{width:100%;padding:.6rem;margin:.3rem 0;border:1px solid #fdba74;border-radius:8px;box-sizing:border-box}button{background:#ea580c;color:#fff;border:0;border-radius:9999px;padding:.8rem 1.6rem;font-weight:700;cursor:pointer}.ride{border-left:4px solid #ea580c}footer{text-align:center;padding:2rem;color:#78716c}</style>
+</head>
+<body>
+<header><h1>ASF Carona 🚗</h1><p>Carona solidária entre surfistas — juntas no pico!</p></header>
+<nav id="net"></nav>
+<main>
+<div class="card">
+<h2>📢 Publicar carona</h2>
+<select id="tipo"><option value="Ofereço">Ofereço carona</option><option value="Procuro">Procuro carona</option></select>
+<input id="nome" placeholder="Seu nome ou @instagram">
+<input id="origem" placeholder="Origem (ex: São Paulo - Vila Madalena)">
+<input id="destino" placeholder="Destino (ex: Praia de Maresias)">
+<input id="data" type="date">
+<input id="vagas" type="number" min="1" max="6" placeholder="Vagas">
+<textarea id="obs" placeholder="Detalhes: horário, divisão de combustível, espaço para prancha..."></textarea>
+<button onclick="pub()">Publicar</button>
+</div>
+<div class="card"><h2>🚙 Mural de caronas</h2><div id="rides"><p>Nenhuma carona publicada ainda — seja a primeira!</p></div></div>
+<div class="card"><p>💡 Combine com o <a href="https://acarolmourad-commits.github.io/asf-eventos/">ASF Eventos</a> para caravanas às competições e veja o destino no <a href="https://acarolmourad-commits.github.io/asf-praias/">ASF Praias</a>. Organize grupos pela <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade</a>.</p></div>
+</main>
+<footer>ASF Carona — satélite do <a href="https://acarolmourad-commits.github.io/asf-app/">app ASF</a></footer>
+<script>
+const sites=[["asf-app","App ASF"],["asf-praias","Praias"],["asf-previsao","Previsão"],["asf-treino","Treino"],["asf-eventos","Eventos"],["asf-glossario","Glossário"],["asf-comunidade","Comunidade"],["asf-seguranca","Segurança"],["asf-equipamento","Equipamento"],["asf-quiz","Quiz"],["asf-nutricao","Nutrição"],["asf-viagens","Viagens"],["asf-bemestar","Bem-Estar"],["asf-diario","Diário"],["asf-apnea","Apneia"]];
+document.getElementById('net').innerHTML=sites.map(s=>`<a href="https://acarolmourad-commits.github.io/${s[0]}/">${s[1]}</a>`).join('');
+function load(){return JSON.parse(localStorage.getItem('asf-carona')||'[]');}
+function render(){const r=load();document.getElementById('rides').innerHTML=r.length?r.map(x=>`<div class="card ride"><b>${x.tipo==='Ofereço'?'🚗 Oferece':'🙋‍♀️ Procura'}:</b> ${x.nome}<br>📍 ${x.origem} → ${x.destino}<br>📅 ${x.data} · ${x.vagas} vaga(s)<br><small>${x.obs||''}</small></div>`).join(''):'<p>Nenhuma carona publicada ainda — seja a primeira!</p>';}
+function pub(){const v=id=>document.getElementById(id).value.trim();if(!v('nome')||!v('destino'))return alert('Preencha nome e destino!');const r=load();r.unshift({tipo:v('tipo'),nome:v('nome'),origem:v('origem'),destino:v('destino'),data:v('data'),vagas:v('vagas'),obs:v('obs')});localStorage.setItem('asf-carona',JSON.stringify(r.slice(0,50)));render();}
+render();
+</script>
+</body>
+</html>
