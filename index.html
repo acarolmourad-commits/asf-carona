@@ -66,77 +66,101 @@ footer{text-align:center;padding:2rem;font-size:.8rem;color:#888}
 <a href="https://acarolmourad-commits.github.io/asf-popup/">Pop-up</a>
 <a href="https://acarolmourad-commits.github.io/asf-sonhos/">Sonhos</a></nav>
 <main>
-<div class="card"><h2>💜 Como funciona</h2>
-<p>O ASF Carona conecta manas que <b>oferecem</b> e manas que <b>precisam</b> de carona para o litoral, praias e eventos de surf. Simples assim:</p>
-<p><b>1.</b> Publique sua carona (ou pedido) com origem, destino, data e seu contato.<br>
-<b>2.</b> Quem tiver interesse clica em <b>"Combinar"</b> e fala direto com você no WhatsApp.<br>
-<b>3.</b> Combinem ponto de encontro, divisão de combustível e pranchas no teto. Boa sessão! 🌊</p>
-<p style="font-size:.8rem;color:#888;margin-top:.5rem">Os anúncios ficam salvos no seu navegador — você gerencia os seus e pode apagá-los quando quiser.</p></div>
+<div class="card"><h2>💜 Por que a ASF Carona existe</h2>
+<p>Muitas manas moram longe do litoral e deixam de surfar por falta de transporte. A carona solidária conecta quem <b>tem vaga no carro</b> com quem <b>precisa de um lugar nele</b> — dividindo custos, fortalecendo a comunidade e enchendo o pico de mulheres. Juntas, ninguém fica em casa. 🌊</p></div>
+
+<div class="card"><h2>📋 Como funciona</h2>
+<p><b>1.</b> Cadastre abaixo sua <b>oferta</b> ou <b>pedido</b> de carona, com origem, destino, data e seu WhatsApp.</p>
+<p><b>2.</b> Veja o mural de caronas ativas e encontre uma mana na sua rota.</p>
+<p><b>3.</b> Toque em <b>"Chamar no WhatsApp"</b> para combinar diretamente com ela.</p>
+<p><b>4.</b> Depois do rolê, registre no <a href="https://acarolmourad-commits.github.io/asf-diario/">ASF Diário</a> e conte para a <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade</a>! 💜</p></div>
+
+<div class="card"><h2>🗺️ Rotas mais pedidas</h2>
+<p>Toque numa rota para preencher o formulário automaticamente — depois é só colocar data e WhatsApp:</p>
+<div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem">
+<button onclick="rota('São José dos Campos','Ubatuba — Praia Grande')">SJC → Ubatuba</button>
+<button onclick="rota('São Paulo','Maresias')">SP → Maresias</button>
+<button onclick="rota('Taubaté','Caraguatatuba')">Taubaté → Caraguá</button>
+<button onclick="rota('São Paulo','Santos — Boqueirão')">SP → Santos</button>
+<button onclick="rota('Rio de Janeiro','Saquarema')">Rio → Saquarema</button>
+<button onclick="rota('Florianópolis','Praia da Joaquina')">Floripa → Joaquina</button>
+</div>
+<p style="font-size:.8rem;color:#888;margin-top:.5rem">Sua rota não está aqui? Publique mesmo assim — outras manas da sua cidade podem estar esperando exatamente por ela!</p></div>
 
 <div class="card"><h2>🙋‍♀️ Oferecer ou pedir carona</h2>
 <select id="tipo"><option>Ofereço carona</option><option>Procuro carona</option></select>
-<input id="nome" placeholder="Seu nome ou apelido">
 <input id="de" placeholder="Saindo de... (bairro/cidade)">
 <input id="para" placeholder="Para... (praia/evento)">
 <input id="quando" type="datetime-local">
 <div style="display:flex;gap:.5rem">
 <input id="vagas" type="number" min="1" max="8" placeholder="Vagas" style="flex:1">
-<input id="custo" placeholder="Divisão (ex.: R$30/pessoa)" style="flex:2">
+<input id="custo" placeholder="R$/pessoa (opcional)" style="flex:2">
 </div>
-<input id="zap" type="tel" placeholder="WhatsApp com DDD (só números) — ex.: 12987654321">
-<textarea id="obs" rows="2" placeholder="Detalhes: ponto de encontro, espaço para prancha, etc."></textarea>
+<input id="zap" placeholder="WhatsApp com DDD (ex: 12998765432)">
 <button onclick="pub()">Publicar carona (+10 XP)</button></div>
 
-<div class="card"><h2>🚙 Caronas ativas</h2>
-<select id="filtro" onchange="render()" style="margin-bottom:.6rem"><option value="todas">Todas</option><option>Ofereço carona</option><option>Procuro carona</option></select>
-<div id="lista"></div></div>
+<div class="card"><h2>🔍 Filtrar caronas</h2>
+<input id="filtro" placeholder="Filtrar por cidade ou praia..." oninput="render()"></div>
 
-<div class="card"><h2>🛟 Segurança entre manas</h2>
+<div class="card"><h2>🤝 Onde conectar com mais manas</h2>
+<p>O mural aqui é local, então use as outras portas do ecossistema para aumentar seu alcance:</p>
+<ul style="padding-left:1.2rem;margin-top:.4rem">
+<li>💬 <a href="https://acarolmourad-commits.github.io/asf-comunidade/"><b>Comunidade ASF</b></a> — cole sua carona no grupo e receba respostas em tempo real.</li>
+<li>📅 <a href="https://acarolmourad-commits.github.io/asf-eventos/"><b>ASF Eventos</b></a> — eventos oficiais sempre têm tópico de caronas; é o melhor momento de achar grupo.</li>
+<li>👯‍♀️ <a href="https://acarolmourad-commits.github.io/asf-parceiras/"><b>ASF Parceiras</b></a> — encontre uma parceira fixa de sessão e combinem caronas semanais.</li>
+<li>🗺️ <a href="https://acarolmourad-commits.github.io/asf-mapa/"><b>ASF Mapa</b></a> — veja picos e pontos de encontro perto de você.</li>
+</ul></div>
+
+<div class="card"><h2>🚙 Caronas ativas</h2><div id="lista"></div>
+<p style="font-size:.8rem;color:#888;margin-top:.5rem">O mural fica salvo no seu navegador — ideal para organizar a galera do seu grupo. Para alcançar mais manas, compartilhe sua carona no grupo da <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade ASF</a>.</p></div>
+
+<div class="card"><h2>⛽ Dividindo os custos</h2>
+<p>Carona solidária não é transporte gratuito nem lucro: é <b>divisão justa</b>. Uma referência simples:</p>
+<p style="margin-top:.4rem"><b>Custo por pessoa ≈ (combustível + pedágios) ÷ número de ocupantes</b></p>
+<p style="font-size:.85rem;color:#777;margin-top:.4rem">Combine o valor <b>antes</b> da viagem para evitar mal-entendidos. Quem oferece o carro também paga sua parte — a carona é solidária, não um serviço.</p></div>
+
+<div class="card"><h2>🛡️ Segurança das manas</h2>
 <ul style="padding-left:1.2rem">
-<li>Combine o primeiro encontro em <b>local público e movimentado</b>.</li>
-<li>Avise alguém de confiança: compartilhe rota, horário e placa do carro.</li>
-<li>Confirme o perfil da mana na <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade ASF</a> antes de fechar.</li>
-<li>Dinheiro da divisão: combine o valor <b>antes</b> de sair.</li>
-<li>Sentiu algo estranho? Cancele sem culpa. Em emergência, veja o <a href="https://acarolmourad-commits.github.io/asf-sos/">ASF SOS</a>.</li>
+<li><b>Só entre mulheres:</b> a ASF Carona é um espaço de conexão feminina — respeite esse propósito.</li>
+<li><b>Converse antes:</b> chame no WhatsApp, veja o perfil e, se possível, faça uma videochamada rápida.</li>
+<li><b>Ponto de encontro público:</b> combinem em local movimentado (posto, mercado, estação).</li>
+<li><b>Compartilhe sua rota:</b> envie localização em tempo real para alguém de confiança durante a viagem.</li>
+<li><b>Avise a comunidade:</b> poste na <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade</a> quem vai com quem — a rede cuida da rede.</li>
+<li><b>Intuição vale ouro:</b> se algo parecer errado, cancele sem cerimônia. Sua segurança vem primeiro. Em emergência, use o <a href="https://acarolmourad-commits.github.io/asf-sos/">ASF SOS</a>.</li>
+</ul></div>
+
+<div class="card"><h2>💜 Etiqueta da carona solidária</h2>
+<p><b>Quem oferece:</b></p>
+<ul style="padding-left:1.2rem;margin:.3rem 0 .6rem">
+<li>Confirme horário e ponto de encontro na véspera — e avise com antecedência se precisar desmarcar.</li>
+<li>Carro revisado, cinto para todas e prancha bem presa no rack/bagageiro.</li>
+<li>Deixe claro se há espaço para prancha antes de confirmar a vaga.</li>
+</ul>
+<p><b>Quem pega:</b></p>
+<ul style="padding-left:1.2rem;margin-top:.3rem">
+<li>Chegue no horário — a maré não espera, e a mana também não deveria.</li>
+<li>Pague a parte combinada sem que precisem cobrar (PIX na chegada é o combinado clássico).</li>
+<li>Ajude a carregar pranchas e deixe o carro como encontrou.</li>
+<li>Agradeceu? Registre no <a href="https://acarolmourad-commits.github.io/asf-diario/">Diário</a> e indique a mana na <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade</a> — reputação boa viaja longe! ✨</li>
 </ul></div>
 
 <div class="card"><p>Veja eventos com caronas no <a href='https://acarolmourad-commits.github.io/asf-eventos/'>ASF Eventos</a> e combine com suas <a href='https://acarolmourad-commits.github.io/asf-parceiras/'>ASF Parceiras</a>.</p></div>
 <div class="card"><h2>🌐 Ecossistema ASF</h2><p>Este app faz parte da constelação ASF — Associação de Surf Feminino. Ganhe XP aqui e veja seu progresso no <a href="https://acarolmourad-commits.github.io/asf-ranking/">ASF Ranking</a>. App principal: <a href="https://acarolmourad-commits.github.io/asf-app/">ASF App</a>.</p></div>
 </main>
-
 <div class="xp">⭐ XP: <span id="xp">0</span></div>
 <footer>ASF — Associação de Surf Feminino · Feito com 🌊 e 💜 · <a href="https://acarolmourad-commits.github.io/">hub</a> · <a href="https://acarolmourad-commits.github.io/asf-app/">asf-app</a></footer>
 <script>
 const XP=()=>parseInt(localStorage.getItem('asf_xp')||'0');
 function addXP(n){localStorage.setItem('asf_xp',XP()+n);document.getElementById('xp').textContent=XP();}
 document.getElementById('xp').textContent=XP();
-const seed=[
-{tipo:'Ofereço carona',nome:'Camila',de:'São José dos Campos',para:'Ubatuba — Praia Grande',quando:'sáb 6h',vagas:3,custo:'R$30/pessoa',zap:'',obs:'Espaço para 2 pranchas no bagageiro'},
-{tipo:'Procuro carona',nome:'Bia',de:'Caraguá centro',para:'Maresias',quando:'dom 7h',vagas:1,custo:'ajudo no combustível',zap:'',obs:''}];
-function getL(){return JSON.parse(localStorage.getItem('asf_caronas2')||'null')||seed;}
+const seed=[{tipo:'Ofereço carona',de:'São José dos Campos',para:'Ubatuba — Praia Grande',quando:'sáb 6h',vagas:'3',custo:'40',zap:''},{tipo:'Procuro carona',de:'Caraguá centro',para:'Maresias',quando:'dom 7h',vagas:'1',custo:'',zap:''}];
 function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-function fmt(q){if(!q)return'a combinar';const d=new Date(q);return isNaN(d)?esc(q):d.toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}
-function render(){
-const f=document.getElementById('filtro').value;
-const l=getL().filter(c=>f==='todas'||c.tipo===f);
-document.getElementById('lista').innerHTML=l.length?l.map((c)=>{
-const i=getL().indexOf(c);
-const zap=c.zap?`<a href="https://wa.me/55${c.zap.replace(/\D/g,'')}?text=${encodeURIComponent('Oi '+esc(c.nome||'mana')+'! Vi sua carona no ASF Carona: '+esc(c.de)+' → '+esc(c.para)+'. Ainda tem vaga? 🌊')}" target="_blank" rel="noopener"><button style="padding:.35rem .9rem;font-size:.85rem;margin-top:.4rem">💬 Combinar no WhatsApp</button></a>`:'';
-return `<div style="border:1px solid #ffd3e6;border-radius:12px;padding:.9rem;margin-bottom:.8rem;background:${c.tipo==='Ofereço carona'?'#fff':'#fdf3f8'}">
-<p>${c.tipo==='Ofereço carona'?'🚗':'🙋‍♀️'} <b>${esc(c.nome?c.nome+' · ':'')}${esc(c.de)} → ${esc(c.para)}</b></p>
-<p style="font-size:.85rem;color:#666">🕐 ${fmt(c.quando)}${c.vagas?' · 👥 '+c.vagas+' vaga(s)':''}${c.custo?' · 💰 '+esc(c.custo):''}</p>
-${c.obs?`<p style="font-size:.85rem;color:#666">📝 ${esc(c.obs)}</p>`:''}
-${zap}
-<button onclick="del(${i})" style="background:#eee;color:#888;font-size:.7rem;padding:.25rem .8rem;margin-top:.4rem">🗑️ Remover</button>
-</div>`;}).join(''):'<p style="color:#888">Nenhuma carona aqui ainda — publique a primeira! 🌊</p>';}
-function pub(){
-const c={tipo:document.getElementById('tipo').value,nome:document.getElementById('nome').value.trim(),de:document.getElementById('de').value.trim(),para:document.getElementById('para').value.trim(),quando:document.getElementById('quando').value,vagas:document.getElementById('vagas').value,custo:document.getElementById('custo').value.trim(),zap:document.getElementById('zap').value.trim(),obs:document.getElementById('obs').value.trim()};
-if(!c.de||!c.para){alert('Preencha pelo menos origem e destino! 🌊');return;}
-const l=getL();l.unshift(c);localStorage.setItem('asf_caronas2',JSON.stringify(l));
-['nome','de','para','quando','vagas','custo','zap','obs'].forEach(id=>document.getElementById(id).value='');
-render();addXP(10);}
-function del(i){const l=getL();if(confirm('Remover este anúncio?')){l.splice(i,1);localStorage.setItem('asf_caronas2',JSON.stringify(l));render();}}
-render();
+function getList(){return JSON.parse(localStorage.getItem('asf_caronas')||'null')||seed;}
+function rota(d,p){document.getElementById('de').value=d;document.getElementById('para').value=p;document.getElementById('quando').focus();window.scrollTo(0,document.getElementById('tipo').offsetTop-120);}
+function del(i){const l=getList();l.splice(i,1);localStorage.setItem('asf_caronas',JSON.stringify(l));render();}
+function render(){const f=(document.getElementById('filtro').value||'').toLowerCase();const l=getList().filter(c=>!f||(c.de+' '+c.para).toLowerCase().includes(f));
+document.getElementById('lista').innerHTML=l.length?l.map((c,i)=>{const when=c.quando&&c.quando.includes('T')?new Date(c.quando).toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):c.quando;const zap=c.zap?`<br><a href="https://wa.me/55${c.zap.replace(/\D/g,'')}?text=${encodeURIComponent('Oi mana! Vi sua carona no ASF Carona: '+c.de+' → '+c.para+'. Ainda tem vaga? 🌊')}" target="_blank" rel="noopener"><button style="margin-top:.4rem;padding:.35rem .9rem;font-size:.85rem">💬 Chamar no WhatsApp</button></a>`:'';const delbtn=c.own?` <a href='#' onclick='del(${i});return false' style='font-size:.75rem;color:#c2185b'>remover</a>`:'';return `<p>${c.tipo==='Ofereço carona'?'🚗':'🙋‍♀️'} <b>${esc(c.de)} → ${esc(c.para)}</b>${delbtn}<br><small>🕐 ${esc(when)||'a combinar'}${c.vagas?' · 👥 '+esc(c.vagas)+' vaga(s)':''}${c.custo?' · ⛽ R$ '+esc(c.custo)+'/pessoa':''}</small>${zap}</p><hr>`;}).join(''):'<p style="color:#888">Nenhuma carona encontrada para esse filtro. Seja a primeira a publicar! 💜</p>';}
+function pub(){const c={own:true,tipo:document.getElementById('tipo').value,de:document.getElementById('de').value.trim(),para:document.getElementById('para').value.trim(),quando:document.getElementById('quando').value||'a combinar',vagas:document.getElementById('vagas').value,custo:document.getElementById('custo').value.replace(/\D/g,''),zap:document.getElementById('zap').value.replace(/\D/g,'')};if(!c.de||!c.para)return;const l=getList();l.unshift(c);localStorage.setItem('asf_caronas',JSON.stringify(l));['de','para','quando','vagas','custo','zap'].forEach(id=>document.getElementById(id).value='');render();addXP(10);}render();
 </script>
 </body>
 </html>
