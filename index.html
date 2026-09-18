@@ -71,7 +71,7 @@ footer{text-align:center;padding:2rem;font-size:.8rem;color:#888}
 
 <div class="card"><h2>📋 Como funciona</h2>
 <p><b>1.</b> Cadastre abaixo sua <b>oferta</b> ou <b>pedido</b> de carona, com origem, destino, data e seu WhatsApp.</p>
-<p><b>2.</b> Veja o mural de caronas ativas e encontre uma mana na sua rota.</p>
+<p><b>2.</b> Veja o <b>mural compartilhado</b> de caronas ativas e encontre uma mana na sua rota — ou publique a sua na planilha da comunidade (instruções abaixo).</p>
 <p><b>3.</b> Toque em <b>"Chamar no WhatsApp"</b> para combinar diretamente com ela.</p>
 <p><b>4.</b> Depois do rolê, registre no <a href="https://acarolmourad-commits.github.io/asf-diario/">ASF Diário</a> e conte para a <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade</a>! 💜</p></div>
 
@@ -111,14 +111,16 @@ footer{text-align:center;padding:2rem;font-size:.8rem;color:#888}
 <li>🗺️ <a href="https://acarolmourad-commits.github.io/asf-mapa/"><b>ASF Mapa</b></a> — veja picos e pontos de encontro perto de você.</li>
 </ul></div>
 
-<div class="card" style="border:2px solid var(--mar)"><h2>🌍 Mural compartilhado da comunidade</h2>
-<p>Todas as manas veem e publicam no mesmo mural! Funciona assim: a planilha <b>ASF Caronas</b> é pública para quem tem o link — adicione sua linha (uma por carona) e pronto, todas veem na hora.</p>
-<p style="margin-top:.5rem"><a href="https://docs.google.com/spreadsheets/d/1YO36XZ6tw0Q8fzGk3y-87RRw7HU0ZZkYMTmc-Mo93Co/edit?usp=sharing" target="_blank" rel="noopener"><button>📝 Publicar no mural compartilhado</button></a>
-<a href="https://docs.google.com/spreadsheets/d/1YO36XZ6tw0Q8fzGk3y-87RRw7HU0ZZkYMTmc-Mo93Co/edit?usp=sharing" target="_blank" rel="noopener"><button style="background:#fff;color:var(--roxo);border:2px solid var(--roxo);margin-left:.5rem">👀 Ver caronas de todas</button></a></p>
-<p style="font-size:.8rem;color:#888;margin-top:.6rem">Preencha: Tipo (ofereço/procuro) · Nome · Saindo de · Para · Quando · Vagas · R$/pessoa · WhatsApp. Combine regras de boa convivência: sem spam, sem dados desnecessários, e apague sua linha quando a carona já rolou. 💜</p></div>
+<div class="card"><h2>🚙 Caronas ativas — mural compartilhado</h2>
+<p id="status-mural" style="font-size:.85rem;color:#888">Carregando mural da comunidade…</p>
+<div id="lista"></div></div>
 
-<div class="card"><h2>🚙 Meu mural local</h2><div id="lista"></div>
-<p style="font-size:.8rem;color:#888;margin-top:.5rem">Este mural local fica salvo no seu navegador — para alcançar TODAS as manas, use o mural compartilhado acima ou compartilhe sua carona no grupo da <a href="https://acarolmourad-commits.github.io/asf-comunidade/">Comunidade ASF</a>.</p></div>
+<div class="card"><h2>📣 Publicar no mural compartilhado</h2>
+<p>O mural acima é <b>compartilhado entre todas as manas</b> — o que uma publica, todas veem. Para incluir a sua:</p>
+<p><b>1.</b> Abra o <a href="https://docs.google.com/spreadsheets/d/1n-Fqe3As-uGUKkFi1e8JKHLa8uBzjGhEYk1BoWlQOBg/edit" target="_blank" rel="noopener"><b>Mural ASF Carona (planilha)</b></a> — não precisa de login, o link já dá acesso de edição.</p>
+<p><b>2.</b> Preencha uma linha nova: <b>tipo</b> (Ofereço carona / Procuro carona), <b>de</b>, <b>para</b>, <b>quando</b>, <b>vagas</b>, <b>custo</b> (R$/pessoa) e seu <b>WhatsApp com DDD</b>.</p>
+<p><b>3.</b> Volte aqui e atualize a página — sua carona aparece no mural! 🌊</p>
+<p style="font-size:.85rem;color:#777;margin-top:.4rem">Regras do mural: só mulheres, sem preços abusivos, apague sua linha quando a carona passar. Moderação feita pela equipe ASF.</p></div>
 
 <div class="card"><h2>⛽ Dividindo os custos</h2>
 <p>Carona solidária não é transporte gratuito nem lucro: é <b>divisão justa</b>. Uma referência simples:</p>
@@ -159,14 +161,20 @@ footer{text-align:center;padding:2rem;font-size:.8rem;color:#888}
 const XP=()=>parseInt(localStorage.getItem('asf_xp')||'0');
 function addXP(n){localStorage.setItem('asf_xp',XP()+n);document.getElementById('xp').textContent=XP();}
 document.getElementById('xp').textContent=XP();
+const SHEET='https://docs.google.com/spreadsheets/d/1n-Fqe3As-uGUKkFi1e8JKHLa8uBzjGhEYk1BoWlQOBg/gviz/tq?tqx=out:csv';
 const seed=[{tipo:'Ofereço carona',de:'São José dos Campos',para:'Ubatuba — Praia Grande',quando:'sáb 6h',vagas:'3',custo:'40',zap:''},{tipo:'Procuro carona',de:'Caraguá centro',para:'Maresias',quando:'dom 7h',vagas:'1',custo:'',zap:''}];
+let SHARED=[];
 function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-function getList(){return JSON.parse(localStorage.getItem('asf_caronas')||'null')||seed;}
+function parseCSV(t){const rows=[];let row=[],cur='',q=false;for(let i=0;i<t.length;i++){const c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;}else if(c==='"')q=true;else if(c===','){row.push(cur);cur='';}else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}else if(c!=='\r')cur+=c;}row.push(cur);rows.push(row);return rows;}
+function getLocal(){return JSON.parse(localStorage.getItem('asf_caronas')||'[]');}
+function getList(){return [...getLocal(),...SHARED];}
+async function loadShared(){try{const r=await fetch(SHEET);const t=await r.text();const rows=parseCSV(t).slice(1).filter(r=>r[0]&&r[1]);SHARED=rows.map(r=>({tipo:r[0],de:r[1],para:r[2],quando:r[3]||'a combinar',vagas:r[4]||'',custo:r[5]||'',zap:(r[6]||'').replace(/\D/g,'')}));document.getElementById('status-mural').innerHTML='🌐 <b>'+SHARED.length+'</b> carona(s) no mural da comunidade'+(getLocal().length?' + <b>'+getLocal().length+'</b> sua(s)':'' )+'.';}catch(e){SHARED=seed;document.getElementById('status-mural').textContent='Mural compartilhado indisponível no momento — mostrando exemplos locais.';}render();}
 function rota(d,p){document.getElementById('de').value=d;document.getElementById('para').value=p;document.getElementById('quando').focus();window.scrollTo(0,document.getElementById('tipo').offsetTop-120);}
-function del(i){const l=getList();l.splice(i,1);localStorage.setItem('asf_caronas',JSON.stringify(l));render();}
-function render(){const f=(document.getElementById('filtro').value||'').toLowerCase();const l=getList().filter(c=>!f||(c.de+' '+c.para).toLowerCase().includes(f));
-document.getElementById('lista').innerHTML=l.length?l.map((c,i)=>{const when=c.quando&&c.quando.includes('T')?new Date(c.quando).toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):c.quando;const zap=c.zap?`<br><a href="https://wa.me/55${c.zap.replace(/\D/g,'')}?text=${encodeURIComponent('Oi mana! Vi sua carona no ASF Carona: '+c.de+' → '+c.para+'. Ainda tem vaga? 🌊')}" target="_blank" rel="noopener"><button style="margin-top:.4rem;padding:.35rem .9rem;font-size:.85rem">💬 Chamar no WhatsApp</button></a>`:'';const delbtn=c.own?` <a href='#' onclick='del(${i});return false' style='font-size:.75rem;color:#c2185b'>remover</a>`:'';return `<p>${c.tipo==='Ofereço carona'?'🚗':'🙋‍♀️'} <b>${esc(c.de)} → ${esc(c.para)}</b>${delbtn}<br><small>🕐 ${esc(when)||'a combinar'}${c.vagas?' · 👥 '+esc(c.vagas)+' vaga(s)':''}${c.custo?' · ⛽ R$ '+esc(c.custo)+'/pessoa':''}</small>${zap}</p><hr>`;}).join(''):'<p style="color:#888">Nenhuma carona encontrada para esse filtro. Seja a primeira a publicar! 💜</p>';}
-function pub(){const c={own:true,tipo:document.getElementById('tipo').value,de:document.getElementById('de').value.trim(),para:document.getElementById('para').value.trim(),quando:document.getElementById('quando').value||'a combinar',vagas:document.getElementById('vagas').value,custo:document.getElementById('custo').value.replace(/\D/g,''),zap:document.getElementById('zap').value.replace(/\D/g,'')};if(!c.de||!c.para)return;const l=getList();l.unshift(c);localStorage.setItem('asf_caronas',JSON.stringify(l));['de','para','quando','vagas','custo','zap'].forEach(id=>document.getElementById(id).value='');render();addXP(10);}render();
+function del(i){const l=getLocal();l.splice(i,1);localStorage.setItem('asf_caronas',JSON.stringify(l));loadShared();}
+function render(){const f=(document.getElementById('filtro').value||'').toLowerCase();const nl=getLocal().length;const l=getList().filter(c=>!f||(c.de+' '+c.para).toLowerCase().includes(f));
+document.getElementById('lista').innerHTML=l.length?l.map((c,idx)=>{const when=c.quando&&c.quando.includes('T')?new Date(c.quando).toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):c.quando;const zap=c.zap?`<br><a href="https://wa.me/55${c.zap.replace(/\D/g,'')}?text=${encodeURIComponent('Oi mana! Vi sua carona no ASF Carona: '+c.de+' → '+c.para+'. Ainda tem vaga? 🌊')}" target="_blank" rel="noopener"><button style="margin-top:.4rem;padding:.35rem .9rem;font-size:.85rem">💬 Chamar no WhatsApp</button></a>`:'';const delbtn=idx<nl?` <a href='#' onclick='del(${idx});return false' style='font-size:.75rem;color:#c2185b'>remover</a>`:'';return `<p>${c.tipo==='Ofereço carona'?'🚗':'🙋‍♀️'} <b>${esc(c.de)} → ${esc(c.para)}</b>${delbtn}<br><small>🕐 ${esc(when)||'a combinar'}${c.vagas?' · 👥 '+esc(c.vagas)+' vaga(s)':''}${c.custo?' · ⛽ R$ '+esc(c.custo)+'/pessoa':''}</small>${zap}</p><hr>`;}).join(''):'<p style="color:#888">Nenhuma carona encontrada para esse filtro. Seja a primeira a publicar! 💜</p>';}
+function pub(){const c={tipo:document.getElementById('tipo').value,de:document.getElementById('de').value.trim(),para:document.getElementById('para').value.trim(),quando:document.getElementById('quando').value||'a combinar',vagas:document.getElementById('vagas').value,custo:document.getElementById('custo').value.replace(/\D/g,''),zap:document.getElementById('zap').value.replace(/\D/g,'')};if(!c.de||!c.para)return;const l=getLocal();l.unshift(c);localStorage.setItem('asf_caronas',JSON.stringify(l));['de','para','quando','vagas','custo','zap'].forEach(id=>document.getElementById(id).value='');addXP(10);document.getElementById('status-mural').innerHTML='✅ Carona salva aqui! Para que <b>todas as manas</b> vejam, publique também no <a href="https://docs.google.com/spreadsheets/d/1n-Fqe3As-uGUKkFi1e8JKHLa8uBzjGhEYk1BoWlQOBg/edit" target="_blank" rel="noopener">mural compartilhado</a> (passo a passo abaixo).';render();}
+loadShared();
 </script>
 </body>
 </html>
