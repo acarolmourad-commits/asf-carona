@@ -181,5 +181,8 @@ document.getElementById('lista').innerHTML=l.length?l.map((c,idx)=>{const when=c
 function pub(){const c={tipo:document.getElementById('tipo').value,de:document.getElementById('de').value.trim(),para:document.getElementById('para').value.trim(),quando:document.getElementById('quando').value||'a combinar',vagas:document.getElementById('vagas').value,custo:document.getElementById('custo').value.replace(/\D/g,''),zap:document.getElementById('zap').value.replace(/\D/g,'')};if(!c.de||!c.para)return;const l=getLocal();l.unshift(c);localStorage.setItem('asf_caronas',JSON.stringify(l));['de','para','quando','vagas','custo','zap'].forEach(id=>document.getElementById(id).value='');addXP(10);document.getElementById('status-mural').innerHTML='✅ Carona salva aqui! Para que <b>todas as manas</b> vejam, publique também no <a href="https://docs.google.com/spreadsheets/d/1n-Fqe3As-uGUKkFi1e8JKHLa8uBzjGhEYk1BoWlQOBg/edit" target="_blank" rel="noopener">mural compartilhado</a> (passo a passo abaixo).';render();}
 loadShared();
 </script>
+
+<!-- ASF LGPD footer -->
+<footer style="margin-top:40px;padding:16px;text-align:center;font-size:12px;opacity:.75"><a href="https://acarolmourad-commits.github.io/asf-app/privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a> · <a href="https://acarolmourad-commits.github.io/asf-app/cookies.html" target="_blank" rel="noopener">Política de Cookies</a> · <a href="https://acarolmourad-commits.github.io/asf-app/termos-de-uso.html" target="_blank" rel="noopener">Termos de Uso</a> · ASF — Associação de Surf Feminino</footer>
 </body>
 </html>
